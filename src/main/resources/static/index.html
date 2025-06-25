@@ -4,8 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Esta es la app pedida para el proyecto del curso de programación 2 de la carrera de Informática Empresarial" />
+    <meta name="author" content="frdlnk" />
+
+
+    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <title>Aplicación de Productos</title>
+    <title>Cursos App | Programación 2 Informática Empresarial</title>
 </head>
 
 <body>
@@ -42,7 +49,7 @@
         <div id="course-data"></div>
 
         <!-- Overlay + Drawer -->
-        <div id="drawer-overlay" class="fixed inset-0 bg-opacity-40 z-40 hidden"></div>
+        <div id="drawer-overlay" class="fixed inset-0 bg-black opacity-40 z-40 hidden"></div>
 
         <div id="drawer"
             class="fixed top-0 right-0 w-full sm:w-[400px] h-full bg-white shadow-xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out">
@@ -51,6 +58,7 @@
                 <button id="closeDrawer" class="text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
             </div>
             <form id="courseForm" class="p-4 space-y-5">
+                <input type="hidden" id="editCourseId" />
                 <div>
                     <label for="courseTitle" class="block text-sm font-semibold text-gray-600 mb-1">Título</label>
                     <input id="courseTitle" type="text"
@@ -90,8 +98,29 @@
 
     </main>
 
+    <!-- Overlay para el modal -->
+    <div id="modal-overlay" class="fixed inset-0 bg-black opacity-90 hidden z-40 flex items-center justify-center">
+        <!-- Modal -->
+        <div id="courseModal"
+            class="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden transform transition-all scale-100 z-50">
+            <div class="h-56 relative">
+                <img id="modalImage" src="" alt="Imagen del curso" class="w-full h-full object-cover rounded-t-xl" />
+            </div>
+            <div class="p-6 space-y-2">
+                <h2 id="modalTitle" class="text-2xl font-bold text-gray-800"></h2>
+                <p id="modalId" class="text-sm text-gray-500"></p>
+                <p id="modalDescription" class="text-gray-700"></p>
+                <p id="modalPrice" class="text-lg font-semibold text-blue-600 mt-2"></p>
+                <button id="closeModalBtn" class="mt-4 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
 
-    <script src="./js/index.js"></script>
+
+
+    <script src="/js/index.js"></script>
 
 </body>
 

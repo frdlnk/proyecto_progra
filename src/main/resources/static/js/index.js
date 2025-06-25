@@ -15,6 +15,17 @@ function openDrawer() {
     overlay.classList.remove("hidden");
 }
 
+function openEditDrawer(course) {
+    openDrawer();
+
+    document.getElementById("courseTitle").value = course.title;
+    document.getElementById("courseDescription").value = course.description;
+    document.getElementById("coursePrice").value = course.price;
+    document.getElementById("courseImage").value = course.imageUrl;
+    document.getElementById("editCourseId").value = course.id; // ID que indica que es edición
+}
+
+
 function closeDrawer() {
     drawer.classList.add("translate-x-full");
     overlay.classList.add("hidden");
@@ -32,7 +43,6 @@ cancelBtn.addEventListener("click", closeDrawer);
 
 // Cerrar si hacen clic fuera (en el fondo oscuro)
 overlay.addEventListener("click", closeDrawer);
-
 form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -40,25 +50,41 @@ form.addEventListener("submit", (e) => {
     const description = document.getElementById("courseDescription").value.trim();
     const price = parseFloat(document.getElementById("coursePrice").value);
     const imageUrl = document.getElementById("courseImage").value.trim();
+    const courseId = document.getElementById("editCourseId").value;
 
     if (!title || !description || isNaN(price) || !imageUrl) {
         alert("Por favor complete todos los campos correctamente.");
         return;
     }
 
-    const newCourse = {
-        id: Date.now(), // ID único por timestamp
-        title,
-        description,
-        price: price.toFixed(2),
-        imageUrl,
-    };
+    if (courseId) {
+        const index = currentCourses.findIndex(c => c.id == courseId);
+        if (index !== -1) {
+            currentCourses[index] = {
+                ...currentCourses[index],
+                title,
+                description,
+                price: price.toFixed(2),
+                imageUrl
+            };
+        }
+    } else {
+        const newCourse = {
+            id: Date.now(),
+            title,
+            description,
+            price: price.toFixed(2),
+            imageUrl,
+        };
+        currentCourses.unshift(newCourse);
+    }
 
-    currentCourses.unshift(newCourse); // Añadir al inicio
     form.reset();
+    document.getElementById("editCourseId").value = "";
     closeDrawer();
     renderCourses();
 });
+
 
 function inyectHtml(element, html) {
     const el = document.getElementById(element)
@@ -90,7 +116,8 @@ function checkCurrentCourses() {
 
 function renderCourses() {
     const html = currentCourses.map(course => `
-        <div class="w-[320px] rounded-xl overflow-hidden shadow-xl cursor-pointer transition transform hover:scale-[1.02]">
+        <div class="w-[320px] rounded-xl overflow-hidden shadow-xl cursor-pointer transition transform hover:scale-[1.02]"
+         onclick="openModal(${JSON.stringify(course).replace(/"/g, '&quot;')})">
 
             <div class="relative h-48 w-full">
     <img src="${course.imageUrl}" alt="Imagen del curso"
@@ -120,14 +147,24 @@ function renderCourses() {
         </div>
     `)
     currentCourses.forEach(course => {
-        const btn = document.getElementById(`delete-${course.id}`)
-        if (btn) {
-            btn.addEventListener("click", (e) => {
-                e.stopPropagation()
-                deleteCourse(course.id)
-            })
+        const deleteBtn = document.getElementById(`delete-${course.id}`);
+        const editBtn = document.getElementById(`edit-${course.id}`);
+
+        if (deleteBtn) {
+            deleteBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                deleteCourse(course.id);
+            });
         }
-    })
+
+        if (editBtn) {
+            editBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                openEditDrawer(course);
+            });
+        }
+    });
+
 }
 
 function deleteCourse(id) {
@@ -163,8 +200,34 @@ async function getCourses() {
     }
 }
 
+
+const modal = document.getElementById("modal-overlay");
+const closeModalBtn = document.getElementById("closeModalBtn");
+
+function openModal(course) {
+    document.getElementById("modalImage").src = course.imageUrl;
+    document.getElementById("modalTitle").textContent = course.title;
+    document.getElementById("modalId").textContent = `ID: ${course.id}`;
+    document.getElementById("modalDescription").textContent = course.description;
+    document.getElementById("modalPrice").textContent = `$${course.price}`;
+    modal.classList.remove("hidden");
+}
+
+function closeModal() {
+    modal.classList.add("hidden");
+}
+
+closeModalBtn.addEventListener("click", closeModal);
+
+// Cierra modal si clickea fuera del modal
+modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+});
+
+
 document.addEventListener("DOMContentLoaded", () => {
     toggleSpinner(true)
     checkCurrentCourses()
     getCourses()
 })
+
