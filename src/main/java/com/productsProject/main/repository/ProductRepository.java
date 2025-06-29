@@ -91,7 +91,7 @@ public class ProductRepository {
         
         List<Product> products= readJsonFile();
         
-        if (products != null) { ////Eta vaina esta rara
+        if (products != null) {
         
             product.setId(products.get(products.size() - 1).getId() + 1);
             products.add(product);
