@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "price": 19.99,
+        "name": "Wireless Mouse",
+        "description": "Ergonomic wireless mouse with USB receiver.",
+        "imageUrl": "https://images.unsplash.com/photo-1587829741301-dc798b83add3"
+    },
+    {
+        "id": 2,
+        "price": 499.99,
+        "name": "Gaming Laptop",
+        "description": "Powerful laptop with 16GB RAM and RTX graphics card.",
+        "imageUrl": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8"
+    },
+    {
+        "id": 3,
+        "price": 99.95,
+        "name": "Mechanical Keyboard",
+        "description": "RGB backlit mechanical keyboard with blue switches.",
+        "imageUrl": "https://images.unsplash.com/photo-1555617117-08ee7c45f4d8"
+    },
+    {
+        "id": 4,
+        "price": 59.9,
+        "name": "Noise Cancelling Headphones",
+        "description": "Over-ear headphones with active noise cancellation.",
+        "imageUrl": "https://images.unsplash.com/photo-1580894894513-c95950c9b247"
+    },
+    {
+        "id": 5,
+        "price": 12.5,
+        "name": "USB-C Charger",
+        "description": "Fast charging 30W USB-C wall charger.",
+        "imageUrl": "https://images.unsplash.com/photo-1592928302294-c7d999fb4f58"
+    }
+]
